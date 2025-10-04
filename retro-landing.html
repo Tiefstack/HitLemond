@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EPIC RETRO 2000s LANDING PAGE</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #000000, #1a1a1a, #2d2d2d, #000000);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
+      font-family: 'Orbitron', monospace;
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Matrix Rain Effect */
+    .matrix-rain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.3;
+    }
+
+    .matrix-column {
+      position: absolute;
+      top: -100px;
+      color: #ffffff;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      animation: matrixFall linear infinite;
+      opacity: 0.8;
+      font-weight: 300;
+    }
+
+    @keyframes matrixFall {
+      0% {
+        transform: translateY(-100px);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    /* Starfield */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    /* Main Content */
+    .container {
+      position: relative;
+      z-index: 10;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+
+    }
+
+    /* Minimalist Title */
+    .glitch-title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: #ffffff;
+      text-shadow:
+        0 0 20px rgba(255, 255, 255, 0.3),
+        0 0 40px rgba(255, 255, 255, 0.1);
+      margin-bottom: 30px;
+      position: relative;
+      letter-spacing: 2px;
+    }
+
+    @keyframes glitch {
+
+      0%,
+      100% {
+        transform: translate(0);
+      }
+
+      20% {
+        transform: translate(-2px, 2px);
+      }
+
+      40% {
+        transform: translate(-2px, -2px);
+      }
+
+      60% {
+        transform: translate(2px, 2px);
+      }
+
+      80% {
+        transform: translate(2px, -2px);
+      }
+    }
+
+    .glitch-title::before,
+    .glitch-title::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch-title::before {
+      animation: glitch-1 0.5s infinite;
+      color: #ff00ff;
+      z-index: -1;
+    }
+
+    .glitch-title::after {
+      animation: glitch-2 0.5s infinite;
+      color: #ffff00;
+      z-index: -2;
+    }
+
+    @keyframes glitch-1 {
+
+      0%,
+      100% {
+        transform: translate(0);
+      }
+
+      20% {
+        transform: translate(2px, -2px);
+      }
+
+      40% {
+        transform: translate(-2px, 2px);
+      }
+
+      60% {
+        transform: translate(2px, 2px);
+      }
+
+      80% {
+        transform: translate(-2px, -2px);
+      }
+    }
+
+    @keyframes glitch-2 {
+
+      0%,
+      100% {
+        transform: translate(0);
+      }
+
+      20% {
+        transform: translate(-2px, -2px);
+      }
+
+      40% {
+        transform: translate(2px, -2px);
+      }
+
+      60% {
+        transform: translate(-2px, 2px);
+      }
+
+      80% {
+        transform: translate(2px, 2px);
+      }
+    }
+
+    /* Minimalist Text */
+    .blink-text {
+      font-size: 0.9rem;
+      color: #e0e0e0;
+      margin-bottom: 40px;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    @keyframes blink {
+
+      0%,
+      50% {
+        opacity: 1;
+      }
+
+      51%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    /* Minimalist Divider */
+    .minimalist-divider {
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #ffffff, transparent);
+      margin: 30px auto;
+      opacity: 0.6;
+    }
+
+    /* Minimalist Buttons */
+    .retro-button {
+      background: transparent;
+      border: 1px solid #ffffff;
+      padding: 12px 24px;
+      margin: 8px;
+      color: #ffffff;
+      font-family: 'Orbitron', monospace;
+      font-weight: 300;
+      font-size: 0.9rem;
+      border-radius: 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
+    }
+
+    .retro-button:hover {
+      background: #ffffff;
+      color: #000000;
+      transform: translateY(-2px);
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(-10px);
+      }
+
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    /* Minimalist Border */
+    .neon-border {
+      border: 1px solid #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      margin: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    @keyframes neonPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 10px #00ffff, inset 0 0 10px #00ffff;
+      }
+
+      50% {
+        box-shadow: 0 0 20px #00ffff, inset 0 0 20px #00ffff;
+      }
+    }
+
+    /* Floating Elements */
+    .floating-element {
+      position: absolute;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    .floating-element:nth-child(1) {
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .floating-element:nth-child(2) {
+      top: 20%;
+      right: 10%;
+      animation-delay: 1s;
+    }
+
+    .floating-element:nth-child(3) {
+      bottom: 20%;
+      left: 15%;
+      animation-delay: 2s;
+    }
+
+    .floating-element:nth-child(4) {
+      bottom: 10%;
+      right: 15%;
+      animation-delay: 3s;
+    }
+
+    /* Minimalist Text Effects */
+    .retro-text {
+      font-family: 'Orbitron', monospace;
+      color: #b19cd9;
+      font-weight: 300;
+      letter-spacing: 1px;
+      font-size: 1.2rem;
+    }
+
+    @keyframes textGlow {
+
+      0%,
+      100% {
+        text-shadow: 2px 2px 0px #ff00ff, 0 0 10px #ffff00;
+      }
+
+      50% {
+        text-shadow: 2px 2px 0px #00ffff, 0 0 20px #ffff00;
+      }
+    }
+
+    /* Loading Bar */
+    .loading-bar {
+      width: 300px;
+      height: 20px;
+      border: 1px solid #ffffff;
+      border-radius: 10px;
+      margin: 20px auto;
+      overflow: hidden;
+      position: relative;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .loading-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ffffff, #e0e0e0, #ffffff);
+      background-size: 200% 100%;
+      animation: loading 3s ease-in-out infinite;
+    }
+
+    @keyframes loading {
+      0% {
+        width: 0%;
+        background-position: 0% 50%;
+      }
+
+      50% {
+        width: 100%;
+        background-position: 100% 50%;
+      }
+
+      100% {
+        width: 0%;
+        background-position: 0% 50%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Matrix Rain Effect -->
+  <div class="matrix-rain" id="matrixRain"></div>
+
+  <!-- Starfield -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Floating Elements -->
+  <div class="floating-element">★</div>
+  <div class="floating-element">◆</div>
+  <div class="floating-element">●</div>
+  <div class="floating-element">▲</div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1 class="glitch-title">LEMONDKILLER</h1>
+
+    <div class="neon-border">
+      <p class="blink-text">DIGITAL MINIMALISM</p>
+      <p class="retro-text">I AM UTTERING NONSENSE</p>
+    </div>
+
+    <div class="minimalist-divider"></div>
+
+    <div class="loading-bar">
+      <div class="loading-fill"></div>
+    </div>
+
+    <div>
+      <button class="retro-button" onclick="playSound()">SOUND</button>
+      <button class="retro-button" onclick="changeTheme()">THEME</button>
+      <button class="retro-button" onclick="matrixMode()">TEXT MODE</button>
+    </div>
+
+    <p class="retro-text" style="margin-top: 30px; font-size: 0.7rem;">
+      PRESS ANY KEY TO CONTINUE
+    </p>
+  </div>
+
+  <script>
+    // Text Rain Effect
+    function createMatrixRain() {
+      const matrixRain = document.getElementById('matrixRain');
+      const characters = 'LIRIKKAABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+      const lirikkaWords = ['LIRIKKA', 'DIGITAL', 'MINIMAL', 'RETRO', 'SOPHISTICATED', 'ELEGANT', 'CLEAN', 'MODERN'];
+
+      for (let i = 0; i < 40; i++) {
+        const column = document.createElement('div');
+        column.className = 'matrix-column';
+        column.style.left = Math.random() * 100 + '%';
+        column.style.animationDuration = (Math.random() * 4 + 3) + 's';
+        column.style.animationDelay = Math.random() * 3 + 's';
+
+        let text = '';
+        for (let j = 0; j < 15; j++) {
+          if (Math.random() < 0.3) {
+            text += lirikkaWords[Math.floor(Math.random() * lirikkaWords.length)] + '<br>';
+          } else {
+            text += characters[Math.floor(Math.random() * characters.length)] + '<br>';
+          }
+        }
+        column.innerHTML = text;
+        matrixRain.appendChild(column);
+      }
+    }
+
+    // Starfield Effect
+    function createStars() {
+      const stars = document.getElementById('stars');
+      const starCount = 100;
+
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.width = Math.random() * 3 + 1 + 'px';
+        star.style.height = star.style.width;
+        star.style.animationDelay = Math.random() * 2 + 's';
+        star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        stars.appendChild(star);
+      }
+    }
+
+    // Sound Effect (Web Audio API)
+    function playSound() {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.5);
+
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+    }
+
+    // Theme Changer
+    let currentTheme = 0;
+    const themes = [
+      'linear-gradient(135deg, #000000, #1a1a1a, #2d2d2d, #000000)',
+      'linear-gradient(135deg, #000000, #2a1a2a, #4a2a4a, #000000)',
+      'linear-gradient(135deg, #000000, #1a1a2a, #2a2a4a, #000000)',
+      'linear-gradient(135deg, #000000, #2a2a1a, #4a4a2a, #000000)'
+    ];
+
+    function changeTheme() {
+      currentTheme = (currentTheme + 1) % themes.length;
+      document.body.style.background = themes[currentTheme];
+    }
+
+    // Matrix Mode
+    function matrixMode() {
+      const matrixRain = document.getElementById('matrixRain');
+      if (matrixRain.style.display === 'none') {
+        matrixRain.style.display = 'block';
+        createMatrixRain();
+      } else {
+        matrixRain.style.display = 'none';
+      }
+    }
+
+    // Keyboard Events
+    document.addEventListener('keydown', function (e) {
+      // Add some visual feedback for key presses
+      document.body.style.filter = 'hue-rotate(180deg)';
+      setTimeout(() => {
+        document.body.style.filter = 'none';
+      }, 200);
+    });
+
+    // Mouse Movement Effect
+    document.addEventListener('mousemove', function (e) {
+      const mouseX = e.clientX / window.innerWidth;
+      const mouseY = e.clientY / window.innerHeight;
+
+      document.body.style.backgroundPosition =
+        `${mouseX * 100}% ${mouseY * 100}%`;
+    });
+
+    // Initialize effects
+    window.addEventListener('load', function () {
+      createMatrixRain();
+      createStars();
+
+      // Add some random glitch effects
+      setInterval(() => {
+        if (Math.random() < 0.1) {
+          document.body.style.filter = 'hue-rotate(90deg) saturate(2)';
+          setTimeout(() => {
+            document.body.style.filter = 'none';
+          }, 100);
+        }
+      }, 2000);
+    });
+
+    // Add some minimalist console messages
+    console.log('%c LIRIKKA ', 'background: #000; color: #ffffff; font-size: 20px; padding: 10px;');
+    console.log('%c DIGITAL MINIMALISM ', 'background: #000; color: #e0e0e0; font-size: 16px;');
+    console.log('%c RETRO SOPHISTICATION ', 'background: #000; color: #d0d0d0; font-size: 12px;');
+  </script>
+</body>
+
+</html>

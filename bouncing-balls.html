@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bouncing Balls Animation</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    #container {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      border: 3px solid #333;
+      background-color: white;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .ball {
+      position: absolute;
+      border-radius: 50%;
+      background-color: black;
+    }
+
+    #controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    #ballCount {
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Bouncing Balls Animation</h1>
+  <div id="container"></div>
+  <div id="controls">
+    <button onclick="addBall()">Add Ball</button>
+    <button onclick="removeBall()">Remove Ball</button>
+    <button onclick="clearBalls()">Clear All</button>
+    <span id="ballCount">Balls: 0</span>
+  </div>
+
+  <script>
+    class Ball {
+      constructor(container) {
+        this.container = container;
+        this.element = document.createElement('div');
+        this.element.className = 'ball';
+
+        // Random size between 20 and 40 pixels
+        this.radius = Math.random() * 20 + 20;
+        this.element.style.width = this.radius * 2 + 'px';
+        this.element.style.height = this.radius * 2 + 'px';
+
+        // Random starting position
+        this.x = Math.random() * (container.offsetWidth - this.radius * 2);
+        this.y = Math.random() * (container.offsetHeight - this.radius * 2);
+
+        // Random velocity
+        this.vx = (Math.random() - 0.5) * 8;
+        this.vy = (Math.random() - 0.5) * 8;
+
+        this.element.style.left = this.x + 'px';
+        this.element.style.top = this.y + 'px';
+
+        container.appendChild(this.element);
+      }
+
+      update() {
+        // Update position
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Bounce off walls
+        if (this.x <= 0 || this.x >= this.container.offsetWidth - this.radius * 2) {
+          this.vx = -this.vx;
+          this.x = Math.max(0, Math.min(this.x, this.container.offsetWidth - this.radius * 2));
+        }
+
+        if (this.y <= 0 || this.y >= this.container.offsetHeight - this.radius * 2) {
+          this.vy = -this.vy;
+          this.y = Math.max(0, Math.min(this.y, this.container.offsetHeight - this.radius * 2));
+        }
+
+        // Update DOM position
+        this.element.style.left = this.x + 'px';
+        this.element.style.top = this.y + 'px';
+      }
+
+      remove() {
+        this.element.remove();
+      }
+    }
+
+    class BouncingBallsAnimation {
+      constructor() {
+        this.container = document.getElementById('container');
+        this.balls = [];
+        this.animationId = null;
+        this.ballCountElement = document.getElementById('ballCount');
+
+        // Start with 3 balls
+        for (let i = 0; i < 3; i++) {
+          this.addBall();
+        }
+
+        this.startAnimation();
+      }
+
+      addBall() {
+        const ball = new Ball(this.container);
+        this.balls.push(ball);
+        this.updateBallCount();
+      }
+
+      removeBall() {
+        if (this.balls.length > 0) {
+          const ball = this.balls.pop();
+          ball.remove();
+          this.updateBallCount();
+        }
+      }
+
+      clearBalls() {
+        this.balls.forEach(ball => ball.remove());
+        this.balls = [];
+        this.updateBallCount();
+      }
+
+      updateBallCount() {
+        this.ballCountElement.textContent = `Balls: ${this.balls.length}`;
+      }
+
+      startAnimation() {
+        const animate = () => {
+          this.balls.forEach(ball => ball.update());
+          this.animationId = requestAnimationFrame(animate);
+        };
+        animate();
+      }
+
+      stopAnimation() {
+        if (this.animationId) {
+          cancelAnimationFrame(this.animationId);
+        }
+      }
+    }
+
+    // Initialize animation
+    const animation = new BouncingBallsAnimation();
+
+    // Global functions for buttons
+    function addBall() {
+      animation.addBall();
+    }
+
+    function removeBall() {
+      animation.removeBall();
+    }
+
+    function clearBalls() {
+      animation.clearBalls();
+    }
+  </script>
+</body>
+
+</html>
