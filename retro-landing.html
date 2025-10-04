@@ -503,23 +503,72 @@
       }
     }
 
-    // Sound Effect (Web Audio API)
+    // Retro Sound Effect (Web Audio API)
     function playSound() {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
 
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
+      // Create multiple oscillators for a richer sound
+      const oscillators = [];
+      const frequencies = [220, 330, 440, 660]; // Retro chord progression
+      const durations = [0.8, 1.2, 1.6, 2.0]; // Staggered durations
 
-      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.5);
+      frequencies.forEach((freq, index) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        const filter = audioContext.createBiquadFilter();
 
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+        // Set up oscillator
+        oscillator.type = 'sawtooth'; // Retro sawtooth wave
+        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
 
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.5);
+        // Add some frequency modulation for that retro feel
+        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(freq * 1.5, audioContext.currentTime + 0.1);
+        oscillator.frequency.exponentialRampToValueAtTime(freq * 0.8, audioContext.currentTime + 0.3);
+        oscillator.frequency.exponentialRampToValueAtTime(freq, audioContext.currentTime + 0.5);
+
+        // Set up filter for that classic retro sound
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(800, audioContext.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.2);
+        filter.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.6);
+        filter.Q.value = 10; // Resonance for that classic synth sound
+
+        // Set up gain envelope
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.05);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + durations[index]);
+
+        // Connect the audio graph
+        oscillator.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        // Start with slight delay for chord effect
+        oscillator.start(audioContext.currentTime + (index * 0.1));
+        oscillator.stop(audioContext.currentTime + durations[index]);
+
+        oscillators.push(oscillator);
+      });
+
+      // Add some retro reverb effect
+      setTimeout(() => {
+        const reverbOscillator = audioContext.createOscillator();
+        const reverbGain = audioContext.createGain();
+
+        reverbOscillator.type = 'square';
+        reverbOscillator.frequency.setValueAtTime(55, audioContext.currentTime);
+        reverbOscillator.frequency.exponentialRampToValueAtTime(110, audioContext.currentTime + 0.5);
+
+        reverbGain.gain.setValueAtTime(0.05, audioContext.currentTime);
+        reverbGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
+
+        reverbOscillator.connect(reverbGain);
+        reverbGain.connect(audioContext.destination);
+
+        reverbOscillator.start(audioContext.currentTime);
+        reverbOscillator.stop(audioContext.currentTime + 1.5);
+      }, 200);
     }
 
     // Theme Changer
